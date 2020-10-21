@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "it.cngei"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -21,12 +21,17 @@ dependencies {
 
     // JBoss
     compileOnly("org.jboss.logging:jboss-logging:$jbossLoggingVersion")
+    testImplementation("org.jboss.logging:jboss-logging:$jbossLoggingVersion")
 
     // Keycloak
     compileOnly("org.keycloak:keycloak-common:$keycloakVersion")
     compileOnly("org.keycloak:keycloak-core:$keycloakVersion")
     compileOnly("org.keycloak:keycloak-server-spi:$keycloakVersion")
     compileOnly("org.keycloak:keycloak-server-spi-private:$keycloakVersion")
+    testImplementation("org.keycloak:keycloak-common:$keycloakVersion")
+    testImplementation("org.keycloak:keycloak-core:$keycloakVersion")
+    testImplementation("org.keycloak:keycloak-server-spi:$keycloakVersion")
+    testImplementation("org.keycloak:keycloak-server-spi-private:$keycloakVersion")
     testImplementation("org.keycloak:keycloak-core:$keycloakVersion")
     testImplementation("org.keycloak:keycloak-server-spi:$keycloakVersion")
     testImplementation("org.keycloak:keycloak-common:$keycloakVersion")

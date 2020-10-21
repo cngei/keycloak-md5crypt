@@ -1,5 +1,6 @@
 package it.cngei.keycloak.md5crypt;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.credential.PasswordCredentialModel;
@@ -35,14 +36,22 @@ public class Md5CryptPasswordHashProvider implements PasswordHashProvider {
 
     }
 
-    public boolean verifyString(String rawPassword, String rawHash) {
+    private boolean verifyString(String rawPassword, String rawHash) {
         String computedHash = Md5Crypt.md5Crypt(rawPassword.getBytes(), rawHash);
+        return rawHash.equals(computedHash);
+    }
+
+    private boolean verifyRawMd5(String rawPassword, String rawHash) {
+        String computedHash = DigestUtils.md5Hex(rawPassword);
         return rawHash.equals(computedHash);
     }
 
     @Override
     public boolean verify(String rawPassword, PasswordCredentialModel credential) {
         final String hash = credential.getPasswordSecretData().getValue();
-        return verifyString(rawPassword, hash);
+        if(hash.startsWith("$"))
+            return verifyString(rawPassword, hash);
+        else
+            return verifyRawMd5(rawPassword, hash);
     }
 }
